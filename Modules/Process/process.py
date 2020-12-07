@@ -10,6 +10,7 @@ class Process:
         self.scanner_request = int(process_array[5])
         self.modem_request = int(process_array[6])
         self.disk_request = int(process_array[7])
+        self.own_offset = None
         self.PID = None 
 
     

@@ -29,11 +29,18 @@ class Memory:
         if (self.__validate_process_kernel(process.priority) and process.process_length <= 64):
             for i in range(self.offset_kernel, (self.offset_kernel + process.process_length)):
                 self.memory_block[i] = process.PID
+            
+            process.own_offset = self.offset_kernel                       #Passando o offset pra sabermos a localização do processo na memória
             self.offset_kernel += process.process_length                #Atualizando o offset do núcleo
         else:
             for i in range(self.offset_user , (self.offset_user + process.process_length)):
                 self.memory_block[i] = process.PID
-            self.offset_user += process.process_length                  #Atualizando o offset do usuário
+            process.own_offset = self.offset_user                #Atualizando o offset do usuário
+            self.offset_user += process.process_length
         self.id += 1
 
-    #def dealocate_memory (self, process):
+    def dealocate_memory (self, process):
+        
+        # Percorre do offset até o final do processo e retira o processo da memória
+        for i in range(process.own_offset, (process.own_offset + (process.process_length))):
+            self.memory_block[i] = None
