@@ -33,6 +33,7 @@ class Memory:
             process.own_offset = self.offset_kernel                       #Passando o offset pra sabermos a localização do processo na memória
             self.offset_kernel += process.process_length                #Atualizando o offset do núcleo
         else:
+            #validar se o processo usuario tem no máximo 960mb
             for i in range(self.offset_user , (self.offset_user + process.process_length)):
                 self.memory_block[i] = process.PID
             process.own_offset = self.offset_user                #Atualizando o offset do usuário
