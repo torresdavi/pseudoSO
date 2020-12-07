@@ -12,5 +12,6 @@ class Process:
         self.disk_request = int(process_array[7])
         self.own_offset = None
         self.PID = None 
+        self.instruction = 1
 
     

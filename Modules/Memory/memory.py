@@ -25,7 +25,9 @@ class Memory:
 
     def alocate_memory(self, process):
         
-        process.PID = self.id 
+        if (process.instruction == 1 ):
+            process.PID = self.id 
+            self.id += 1
         if (self.__validate_process_kernel(process.priority) and process.process_length <= 64):
             if ((self.memory_block[0] != None) and ((self.offset_kernel + process.process_length ) > 64 )):  #Verifica se ha processo alocado na memoria (kernel)
                 print("Nao ha espaço para alocacao na memoria para o processo.")
@@ -41,7 +43,6 @@ class Memory:
                 self.memory_block[i] = process.PID
             process.own_offset = self.offset_user                #Atualizando o offset do usuário
             self.offset_user += process.process_length
-        self.id += 1
         return (process)
 
     def dealocate_memory (self, process):

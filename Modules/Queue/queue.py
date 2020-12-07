@@ -11,30 +11,27 @@ class Queue:
     def insert_process(self, process, memory): #insercao de processo nas filas de prioridade
         if ((len(self.kernel_queue) + len(self.user1_queue) + len(self.user2_queue) + len(self.user3_queue)) <= 1000):
             if(process.priority == 0):
-                if(memory.alocate_memory(process)):
-                    self.kernel_queue.append(process)
-                    print("\nKernel: ")
-                    print(self.kernel_queue)
+                if(process.instruction == 1):
+                    memory.alocate_memory(process)
+                self.kernel_queue.append(process)
+
             elif (process.priority == 1):
-                if (memory.alocate_memory(process)):
-                    self.user1_queue.append(process)
-                    print("\nUser1: ")
-                    print(self.user1_queue)
+                if(process.instruction == 1):
+                    memory.alocate_memory(process)
+                self.user1_queue.append(process)
             elif (process.priority == 2):
-                if (memory.alocate_memory(process)):
-                    self.user2_queue.append(process)
-                    print("\nUser2:")
-                    print(self.user2_queue)  
+                if(process.instruction == 1):
+                    memory.alocate_memory(process)
+                self.user2_queue.append(process)
             elif (process.priority == 3):
-                if (memory.alocate_memory(process)):
-                    self.user3_queue.append(process)
-                    print("\n User3:")
-                    print(self.user3_queue)
+                if(process.instruction == 1):
+                    memory.alocate_memory(process)
+                self.user3_queue.append(process)
         
         else:
             print("A fila está cheia.")
 
-    def update_priority(self):
+    def update_priority(self):    #funcao definida para atualizacao constante da fila de prioridades
         self.user1_queue.extend(self.user2_queue)
         self.user2_queue = []
         self.user2_queue.extend(self.user3_queue)
@@ -42,17 +39,26 @@ class Queue:
 
         
     def remove_process(self):    #remocao dos processos das filas de prioridade
-        if (self.kernel_queue is not None):   
+        if (self.kernel_queue):   
             pop_queue = self.kernel_queue.pop()
-        elif(self.user1_queue is not None):
+        elif(self.user1_queue):
             pop_queue = self.user1_queue.pop()
-        elif(self.user2_queue is not None):
+        elif(self.user2_queue):
             pop_queue = self.user2_queue.pop()
-        elif(self.user3_queue is not None):
+        elif(self.user3_queue):
             pop_queue = self.user3_queue.pop()
+        else:
+            return 0
         self.update_priority()
-        
         return pop_queue
+
+    def initial_time(self, processes, memory): #funcao que ordena os processos por tempo de processador para execucao
+        processes.sort(key=lambda x: x.time_init, reverse=True)
+        for process in processes:
+            self.insert_process(process,memory)
         
+
+
+            
     
     
