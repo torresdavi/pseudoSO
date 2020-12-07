@@ -20,4 +20,4 @@ def read_file():
                 process = Process(process_attributes)
             processes_array.append(process)
             
-return (processes_array)
+    return (processes_array)
