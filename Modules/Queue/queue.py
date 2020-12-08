@@ -9,23 +9,26 @@ class Queue:
 
 
     def insert_process(self, process, memory): #insercao de processo nas filas de prioridade
-        if ((len(self.kernel_queue) + len(self.user1_queue) + len(self.user2_queue) + len(self.user3_queue)) <= 1000):
-            if(process.priority == 0):
+        if ((len(self.kernel_queue) + len(self.user1_queue) + len(self.user2_queue) + len(self.user3_queue)) <= 1000): 
+            if(process.priority == 0):              #tamanho total das filas deve ser menor que < 1000
                 if(process.instruction == 1):
-                    memory.alocate_memory(process)
+                    if (memory.alocate_memory(process) == 0): #tratando erro de processo muito grande
+                        return (0)
                 self.kernel_queue.append(process)
-
-            elif (process.priority == 1):
+            elif (process.priority == 1):                                       
                 if(process.instruction == 1):
-                    memory.alocate_memory(process)
+                    if (memory.alocate_memory(process) == 0):
+                        return (0)
                 self.user1_queue.append(process)
             elif (process.priority == 2):
                 if(process.instruction == 1):
-                    memory.alocate_memory(process)
+                    if (memory.alocate_memory(process) == 0):
+                        return (0)
                 self.user2_queue.append(process)
             elif (process.priority == 3):
                 if(process.instruction == 1):
-                    memory.alocate_memory(process)
+                    if (memory.alocate_memory(process) == 0): 
+                        return (0)
                 self.user3_queue.append(process)
         
         else:
@@ -39,7 +42,7 @@ class Queue:
 
         
     def remove_process(self):    #remocao dos processos das filas de prioridade
-        if (self.kernel_queue):   
+        if (self.kernel_queue):                                     #uso do pop para remover o último elemento da lista
             pop_queue = self.kernel_queue.pop()
         elif(self.user1_queue):
             pop_queue = self.user1_queue.pop()
